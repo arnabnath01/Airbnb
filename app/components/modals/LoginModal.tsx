@@ -39,33 +39,29 @@ const LoginModal = () => {
     },
   });
   
-  const onSubmit: SubmitHandler<FieldValues> = 
-  (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
-    signIn('credentials', { 
+    const callback = await signIn('credentials', { 
       ...data, 
       redirect: false,
-    })
-    .then((callback) => {
-      setIsLoading(false);
-
-      if (callback?.ok) {
-        toast.success('Logged in');
-        router.refresh();
-        loginModal.onClose();
-      }
-      
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
     });
+
+    setIsLoading(false);
+
+    if (callback?.ok) {
+      toast.success('Logged in');
+      router.refresh();
+      loginModal.onClose();
+    } else if (callback?.error) {
+      toast.error(callback.error);
+    }
   }
 
   const onToggle = useCallback(() => {
     loginModal.onClose();
     registerModal.onOpen();
-  }, [loginModal, registerModal])
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -91,7 +87,7 @@ const LoginModal = () => {
         required
       />
     </div>
-  )
+  );
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
@@ -122,7 +118,7 @@ const LoginModal = () => {
         </p>
       </div>
     </div>
-  )
+  );
 
   return (
     <Modal

@@ -9,7 +9,7 @@ declare global {
   var cloudinary: any
 }
 
-const uploadPreset = "dx99qgqt6";
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME as string;
 
 interface ImageUploadProps {
   onChange: (value: string) => void;
