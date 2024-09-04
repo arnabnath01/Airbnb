@@ -5,10 +5,12 @@ import Image from "next/image";
 import { useCallback } from "react";
 import { TbPhotoPlus } from 'react-icons/tb'
 
+// Declare global variable for Cloudinary
 declare global {
   var cloudinary: any
 }
 
+// Cloudinary upload preset
 const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME as string;
 
 interface ImageUploadProps {
@@ -20,10 +22,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   onChange,
   value
 }) => {
+  // Handle image upload and update the value
   const handleUpload = useCallback((result: any) => {
     onChange(result.info.secure_url);
-  }, [onChange]);
-
+  }, [onChange]); 
+  
   return (
     <CldUploadWidget 
       onUpload={handleUpload} 
